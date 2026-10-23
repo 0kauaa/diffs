@@ -20,8 +20,8 @@ source-repository head
 
 library
   exposed-modules:
+      Diff
       Expr
-      Lib
   other-modules:
       Paths_diffs
   autogen-modules:

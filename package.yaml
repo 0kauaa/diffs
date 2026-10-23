@@ -22,6 +22,9 @@ ghc-options:
 
 library:
   source-dirs: src
+  exposed-modules:
+    - Diff
+    - Expr
 
 executables:
   diffs-exe:

@@ -1,6 +1,11 @@
 module Main (main) where
 
-import Lib
+import Diff ( deriva )
+import Expr ( Expressao(..) )
+
+f :: Expressao
+f = E X
 
 main :: IO ()
-main = someFunc
+main = do
+  print $ deriva f
