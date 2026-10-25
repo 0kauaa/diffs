@@ -4,8 +4,8 @@ import Diff ( deriva )
 import Expr ( Expressao(..) )
 
 f :: Expressao
-f = E (Produto [ Var "x" , Constante (-1)])
+f = Soma [Var "y"]
 
 main :: IO ()
 main = do
-  print $ deriva f
+  print $ deriva "x" f

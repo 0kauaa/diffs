@@ -4,19 +4,22 @@ module Diff
 
 import Expr ( Expressao(..) )
 
-deriva :: Expressao -> Expressao
--- casos base de expressões multi-árias
-deriva (Soma [])        = Constante 0
-deriva (Produto [])     = Constante 0
+deriva :: String -> Expressao -> Expressao
+-- tratamento de multi-aridade
+deriva x (Var v)
+  | x == v = Constante 1
+  | otherwise = Constante 0
+
+-- casos base de expressões list-based
+deriva _ (Soma [])        = Constante 0
+deriva _ (Produto [])     = Constante 0
 
 -- regras de derivação
-deriva (Var _)               = Constante 1
-deriva (Constante _)         = Constante 0
-deriva (Soma expressao)      = Soma (map deriva expressao)
-deriva (Produto expressao)   = Soma [Produto (deriva' i expressao) | i <- [0 .. length expressao - 1]]
-  where
-    deriva' i fs = zipWith (\idx f -> if idx == i then deriva f else f) [0..] fs
-deriva (Potencia f potencia) = Produto [potencia, Potencia f (Soma [potencia, Constante (-1)]), deriva f]
-deriva (E x)                 = Produto [E x, deriva x]
-deriva (Seno f)              = Produto [Cosseno f, deriva f]
-deriva (Cosseno f)           = Produto [Seno f, Constante (-1), deriva f]
+deriva _ (Constante _)         = Constante 0
+deriva x (Soma expressao)      = Soma (map (deriva x) expressao)
+deriva x (Produto expressao)   = Soma [Produto (derivando x i expressao) | i <- [0 .. length expressao - 1]]
+  where derivando var i fs = zipWith (\idx f -> if idx == i then deriva var f else f) [0..] fs
+deriva x (Potencia f potencia) = Produto [potencia, Potencia f (Soma [potencia, Constante (-1)]), deriva x f]
+deriva x (E f)                 = Produto [E f, deriva x f]
+deriva x (Seno f)              = Produto [Cosseno f, deriva x f]
+deriva x (Cosseno f)           = Produto [Seno f, Constante (-1), deriva x f]
