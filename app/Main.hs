@@ -1,11 +1,13 @@
+{- executável principal usado para testes -}
+
 module Main (main) where
 
 import Diff ( deriva )
-import Expr ( Expressao(..) )
+import Expr ( Expressao(..), simplifica )
 
 f :: Expressao
-f = Soma [Var "y"]
+f = simplifica (E (Produto [Var "x", Constante (-1)]))
 
 main :: IO ()
 main = do
-  print $ deriva "x" f
+  print $ simplifica $ deriva "x" f

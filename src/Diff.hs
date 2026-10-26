@@ -1,3 +1,5 @@
+{- implementa as regras de derivação para a AST de Expressão -}
+
 module Diff
   ( deriva
   ) where
