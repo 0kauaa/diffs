@@ -16,6 +16,7 @@ data Expressao
   | E Expressao
   | Seno Expressao
   | Cosseno Expressao
+  | Nulo
     deriving (Eq, Show, Ord)
 
 -- agrupamentos por Expressao
@@ -33,6 +34,7 @@ agrupaProdutos = concatMap apenasProd
 
 -- simplifica Expressao a uma forma canônica
 simplifica :: Expressao -> Expressao
+simplifica Nulo = Nulo
 simplifica (Constante c) = Constante c
 simplifica (Var x)       = Var x
 
@@ -57,7 +59,7 @@ simplifica (Produto f) =
     case (prodCons, termos) of
       (1, [])  -> Constante 1
       (1, [x]) -> x
-      (1, xs)  -> Soma xs
+      (1, xs)  -> Produto xs
       (c, [])  -> Constante c
       (c, xs)  -> Produto (Constante c : xs)
 

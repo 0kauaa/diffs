@@ -2,12 +2,14 @@
 
 module Main (main) where
 
-import Diff ( deriva )
-import Expr ( Expressao(..), simplifica )
+import Diff   ( deriva, derivada )
+import Expr   ( Expressao(..), simplifica )
+import Parser ( recebe, devolve )
 
-f :: Expressao
-f = simplifica (E (Produto [Var "x", Constante (-1)]))
+f :: String
+f = "(x  - 2 * (2 + x))"
 
 main :: IO ()
 main = do
-  print $ simplifica $ deriva "x" f
+  print $ (devolve . derivada "x" . recebe) f
+  print $ deriva "x" f

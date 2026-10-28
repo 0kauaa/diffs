@@ -22,6 +22,7 @@ library
   exposed-modules:
       Diff
       Expr
+      Parser
   other-modules:
       Paths_diffs
   autogen-modules:
